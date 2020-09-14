@@ -28,11 +28,13 @@ namespace Practise
         //Sorts the array using Bubble Sort algorithm
         static void BubbleSort(int[] arr)
         {
+            int check_comparisons = 0;
             int temp, comparisons = (arr.Length*(arr.Length-1))/2, exchanges = 0;
             for (int j = 0; j < arr.Length - 1; j++)
             {
                 for (int i = 0; i <arr.Length - 1; i++)
                 {
+                    check_comparisons++;
                     if (arr[i] > arr[i + 1])
                     {
                         temp = arr[i + 1];
@@ -46,6 +48,7 @@ namespace Practise
             ArrayOut(arr);
             Console.WriteLine($"{comparisons} comparisons and {exchanges} exchanges have been made");
             Console.WriteLine($"{comparisons + exchanges} operations in total");
+            Console.WriteLine($"CheckComp: {check_comparisons}");
         }
         //Sorts the array using Insertion Sort algorithm
         static void InsertionSort(int[] arr)
