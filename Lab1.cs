@@ -25,6 +25,7 @@ namespace Practise
             }
             Console.WriteLine();
         }
+        //Sorts the array using Bubble Sort algorithm
         static void BubbleSort(int[] arr)
         {
             int temp, comparisons = (arr.Length*(arr.Length-1))/2, exchanges = 0;
@@ -46,7 +47,7 @@ namespace Practise
             Console.WriteLine($"{comparisons} comparisons and {exchanges} exchanges have been made");
             Console.WriteLine($"{comparisons + exchanges} operations in total");
         }
-
+        //Sorts the array using Insertion Sort algorithm
         static void InsertionSort(int[] arr)
         {
             int comparisons = 0, exchanges = 0;
@@ -69,7 +70,7 @@ namespace Practise
             Console.WriteLine($"{comparisons} comparisons and {exchanges} exchanges have been made");
             Console.WriteLine($"{comparisons + exchanges} operations in total");
         }
-
+        //Uses both sorting algorithms
         static void Both(int[] arr)
         {
             Console.WriteLine("\nBuble Sort\n");
@@ -78,7 +79,7 @@ namespace Practise
             InsertionSort(arr);
         }
 
-        //quality=0 unsorted, =1 sorted, =2 sorted reversed
+        //Generates an array using the parameters set by the user
         public static int[] GenerateArray(int size,int quality,int min, int max)
         {
             Random r = new Random();
@@ -91,40 +92,52 @@ namespace Practise
                 Array.Reverse(arr);
             return arr;
         }
+
         static void Main(string[] args)
         {
             int size, sort_method, quality, generate;
             Console.Write("Input 'e' to exit\n");
+            //main program cycle
             for (; ; )
             {
+                //User input of array size
                 Console.WriteLine("Input array size:");
                 string exit = Console.ReadLine();
                 int.TryParse(exit, out size);
+                //Checks the input for exit command
                 if (exit == "e")
                         break;
                 int[] array = new int[size];
+                //User input of input type
                 Console.WriteLine("Input '0' for manual input or '1' to generate array");
                 int.TryParse(Console.ReadLine(), out generate);
                 if (generate == 0)
+                    //array input
                     array = ArrayIn(size);
                 else
                 {
+                    //User input of max and min values
                     int min, max;
                     Console.WriteLine("Input minimal generated number: ");
                     int.TryParse(Console.ReadLine(), out min);
                     Console.WriteLine("Input maximal generated number: ");
                     int.TryParse(Console.ReadLine(), out max);
+                    //User input of array quality
                     Console.WriteLine("Input '0' to generate unsorted array, '1' for sorted, '2' for sorted reversed");
                     int.TryParse(Console.ReadLine(), out quality);
+                    //array generation
                     array = GenerateArray(size, quality,min,max);
                 }
+                //User input of sorting method
                 Console.WriteLine("Input '1' to use Bubble Sort, '2' for Insertion Sort, '3' for both");
                 int.TryParse(Console.ReadLine(), out sort_method);
+                //Array output if it has ten or less elements
                 if (size <= 10)
                 {
-                    Console.WriteLine("Unsorted array:");
+                    Console.WriteLine("Array:");
                     ArrayOut(array);
                 }
+                //Choosing sorting method based on user input
                 if (sort_method == 1)
                     BubbleSort(array);
                 if (sort_method == 2)
