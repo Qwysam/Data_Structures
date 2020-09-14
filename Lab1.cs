@@ -4,6 +4,7 @@ namespace Practise
 {
     class Program
     {
+        //User input to array
         static int[] ArrayIn(int size)
         {
             int[] arr = new int[size];
@@ -15,6 +16,7 @@ namespace Practise
             return arr;
 
         }
+        //Output array
         static void ArrayOut(int[] arr)
         {
             foreach(int elem in arr)
