@@ -77,12 +77,12 @@ namespace Practise
         }
 
         //quality=0 unsorted, =1 sorted, =2 sorted reversed
-        public static int[] GenerateArray(int size,int quality)
+        public static int[] GenerateArray(int size,int quality,int min, int max)
         {
             Random r = new Random();
             int[] arr = new int[size];
             for(int i = 0;i<size;i++)
-                arr[i] = r.Next(100, 300);
+                arr[i] = r.Next(min, max);
             if (quality != 0)
                 Array.Sort(arr);
             if (quality == 2)
@@ -107,9 +107,14 @@ namespace Practise
                     array = ArrayIn(size);
                 else
                 {
+                    int min, max;
+                    Console.WriteLine("Input minimal generated number: ");
+                    int.TryParse(Console.ReadLine(), out min);
+                    Console.WriteLine("Input maximal generated number: ");
+                    int.TryParse(Console.ReadLine(), out max);
                     Console.WriteLine("Input '0' to generate unsorted array, '1' for sorted, '2' for sorted reversed");
                     int.TryParse(Console.ReadLine(), out quality);
-                    array = GenerateArray(size, quality);
+                    array = GenerateArray(size, quality,min,max);
                 }
                 Console.WriteLine("Input '1' to use Bubble Sort, '2' for Insertion Sort, '3' for both");
                 int.TryParse(Console.ReadLine(), out sort_method);
