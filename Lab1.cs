@@ -8,7 +8,7 @@ namespace Practise
         static int[] ArrayIn(int size)
         {
             int[] arr = new int[size];
-            for(int i = 0; i < size; i++)
+            for (int i = 0; i < size; i++)
             {
                 Console.WriteLine($"Input a[{i}]: ");
                 int.TryParse(Console.ReadLine(), out arr[i]);
@@ -19,7 +19,7 @@ namespace Practise
         //Output array
         static void ArrayOut(int[] arr)
         {
-            foreach(int elem in arr)
+            foreach (int elem in arr)
             {
                 Console.Write($"{elem} ");
             }
@@ -28,44 +28,66 @@ namespace Practise
         //Sorts the array using Bubble Sort algorithm
         static void BubbleSort(int[] arr)
         {
-            int check_comparisons = 0;
-            int temp, comparisons = (arr.Length*(arr.Length-1))/2, exchanges = 0;
+            int temp, comparisons = (arr.Length * (arr.Length - 1)) / 2, exchanges = 0;
             for (int j = 0; j < arr.Length - 1; j++)
             {
-                for (int i = 0; i <arr.Length - 1; i++)
+                //iterational operations calculation
+                int iteration_comparisons = arr.Length - (j + 1);
+                int iteration_exchanges = 0;
+                for (int i = 0; i < arr.Length - 1; i++)
                 {
-                    check_comparisons++;
                     if (arr[i] > arr[i + 1])
                     {
                         temp = arr[i + 1];
                         arr[i + 1] = arr[i];
                         arr[i] = temp;
                         exchanges++;
+                        iteration_exchanges++;
                     }
+                }
+                //Output of each iteration if conditions are met
+                if (arr.Length <= 10)
+                {
+                    Console.WriteLine($"Iterational comparisons: {iteration_comparisons}");
+                    Console.WriteLine($"Iterational exchanges: {iteration_exchanges}");
+                    Console.WriteLine($"Total: {iteration_comparisons + iteration_exchanges}");
+                    ArrayOut(arr);
                 }
             }
             Console.WriteLine("Sorted array:");
             ArrayOut(arr);
             Console.WriteLine($"{comparisons} comparisons and {exchanges} exchanges have been made");
             Console.WriteLine($"{comparisons + exchanges} operations in total");
-            Console.WriteLine($"CheckComp: {check_comparisons}");
         }
         //Sorts the array using Insertion Sort algorithm
         static void InsertionSort(int[] arr)
         {
             int comparisons = 0, exchanges = 0;
-            for (int i = 0; i < arr.Length - 1; i++)
+            for (int j = 0; j < arr.Length - 1; j++)
             {
-                for (int j = i + 1; j > 0; j--)
+                //iterational operations calculation
+                int iteration_comparisons = 0;
+                int iteration_exchanges = 0;
+                for (int i = j + 1; i > 0; i--)
                 {
+                    iteration_comparisons++;
                     comparisons++;
-                    if (arr[j - 1] > arr[j])
+                    if (arr[i - 1] > arr[i])
                     {
                         exchanges++;
-                        int temp = arr[j - 1];
-                        arr[j - 1] = arr[j];
-                        arr[j] = temp;
+                        iteration_exchanges++;
+                        int temp = arr[i - 1];
+                        arr[i - 1] = arr[i];
+                        arr[i] = temp;
                     }
+                }
+                //Output of each iteration if conditions are met
+                if (arr.Length <= 10)
+                {
+                    Console.WriteLine($"Iterational comparisons: {iteration_comparisons}");
+                    Console.WriteLine($"Iterational exchanges: {iteration_exchanges}");
+                    Console.WriteLine($"Total: {iteration_comparisons + iteration_exchanges}");
+                    ArrayOut(arr);
                 }
             }
             Console.WriteLine("Sorted array:");
@@ -76,18 +98,20 @@ namespace Practise
         //Uses both sorting algorithms
         static void Both(int[] arr)
         {
-            Console.WriteLine("\nBuble Sort\n");
+            int[] arr_copy = new int[arr.Length];
+            Array.Copy(arr, arr_copy, arr.Length);
+            Console.WriteLine("\nBubble Sort\n");
             BubbleSort(arr);
             Console.WriteLine("\nInsertion Sort\n");
-            InsertionSort(arr);
+            InsertionSort(arr_copy);
         }
 
         //Generates an array using the parameters set by the user
-        public static int[] GenerateArray(int size,int quality,int min, int max)
+        public static int[] GenerateArray(int size, int quality, int min, int max)
         {
             Random r = new Random();
             int[] arr = new int[size];
-            for(int i = 0;i<size;i++)
+            for (int i = 0; i < size; i++)
                 arr[i] = r.Next(min, max);
             if (quality != 0)
                 Array.Sort(arr);
@@ -109,7 +133,7 @@ namespace Practise
                 int.TryParse(exit, out size);
                 //Checks the input for exit command
                 if (exit == "e")
-                        break;
+                    break;
                 int[] array = new int[size];
                 //User input of input type
                 Console.WriteLine("Input '0' for manual input or '1' to generate array");
@@ -129,7 +153,7 @@ namespace Practise
                     Console.WriteLine("Input '0' to generate unsorted array, '1' for sorted, '2' for sorted reversed");
                     int.TryParse(Console.ReadLine(), out quality);
                     //array generation
-                    array = GenerateArray(size, quality,min,max);
+                    array = GenerateArray(size, quality, min, max);
                 }
                 //User input of sorting method
                 Console.WriteLine("Input '1' to use Bubble Sort, '2' for Insertion Sort, '3' for both");
