@@ -66,9 +66,10 @@ void print_queue(node_t *head) {
     node_t *current = head;
 
     while (current != NULL) {
-        printf("%d\n", current->val);
+        printf("%d ", current->val);
         current = current->next;
     }
+    cout << endl;
 }
 
 struct Stack // структура элемента для формирования стека
@@ -90,9 +91,10 @@ Link newNode() // создает элемент для стека и возвр�
 }
 
 Link insert(Link top, Link t)                 // вставить t в стек после top
-{    t->next = top;          
-      top = t;
-      return top;	  
+{ 
+    t->next = top;          
+    top = t;
+    return top;	  
 }
 
 Link pop_stack(Link top)                //удаление элемента из вершины стека
@@ -102,7 +104,6 @@ Link pop_stack(Link top)                //удаление элемента из
 	}
 		else
 		{	   
-            cout<<"poping top->value="<<top->value<<endl;
 	        Link t = top;
 	        top=t->next;
 	        delete(t);
@@ -145,7 +146,6 @@ Link delete_stack(Link top)                 //уничтожение стека
             top = t->next;
             delete(t);
         }
-		cout<<"You do stack empty! top = = NULL"<<endl;
         return top;
 	}
 }
@@ -184,24 +184,99 @@ void print_stack(Link top)                        // печать элемент
 
 int main(void)
 {
-    char option;
-    cout << "Input 's' to create stack, or 'q' to create queue: ";
-    cin >> option; 
-    if(option == 's'){
-        Link l = newNode();
-        Link k = newNode();
-        insert(k,l);
-        print_stack(l);
-    }
-    if(option == 'q'){
-        node_t *head = NULL;
-        cout << "Input first element: ";
-        int i;
-        cin >> i;
-        enqueue(&head,i);
-        enqueue(&head,i);
-        delete_queue(head);
-        cout << "There are " << count_queue(head) << " elements\n";
+    char option, action;
+    int count = 0, max;
+    node_t *head = NULL;
+    Link temp,top;
+    for(;;){
+        if(count == 0){
+            cout << "Input number of elements in data structure: ";
+            cin >> max;
+            cout << "Input 's' to create stack, or 'q' to create queue: ";
+            cin >> option;
+            if(option == 's'){
+            top = newNode();
+            count++;
+            }
+            if(option == 'q'){
+            cout << "Input first element: ";
+            int i;
+            cin >> i;
+            enqueue(&head,i);
+            count++;
+            }
+        }
+        if(count>0 && count <=max){
+            cout << "Actions:\n";
+            cout << "'d' to delete structure\n'i' to input element\n'r' to remove element\n";
+            cout << "'c' to count number of elements\n'm' to check if structure is empty\n'p' to print elements\n";
+            cout << "'e' to exit\n";
+            cout << "Input action: ";
+            cin >> action;
+            if(action=='e')
+                break;
+            if(action == 'd'){
+                if(option == 's')
+                    top = delete_stack(top);
+                else
+                    delete_queue(head);
+                count = 0;
+            }
+            if(action == 'i'){
+                if(count == max)
+                    cout << "Too many elements\n";
+                else{
+                if(option == 's'){
+                    temp = newNode();
+                    top = insert(top,temp);
+                }
+                else{
+                    int i;
+                    cout << "Input element: ";
+                    cin >> i;
+                    enqueue(&head,i);
+                }
+                count++;
+                }
+            }
+            if(action == 'r'){
+                if(option == 's')
+                    top = pop_stack(top);
+                else
+                    dequeue(&head);
+                count--;
+            }
+            if(action == 'c'){
+                int c;
+                if(option == 's'){
+                    c = count_stack(top);
+                }
+                else{
+                    c = count_queue(head);
+                }
+                cout << c << " elements in structure\n";
+            }
+            if(action == 'm'){
+                if(option == 's'){
+                    if(stack_is_empty(top))
+                        cout << "Stack is empty\n"; 
+                    else
+                        cout << "Stack is not empty\n";
+                }
+                else{
+                    if(queue_is_empty(head))
+                        cout << "Queue is empty\n";
+                    else
+                        cout << "Queue is not empty\n";
+                }
+            }
+            if(action == 'p'){
+                if(option == 's')
+                    print_stack(top);
+                else
+                    print_queue(head);
+            }
+        } 
     }
     return 0;
 }
