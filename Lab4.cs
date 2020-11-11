@@ -6,6 +6,7 @@ namespace Data_Structures
 {
     class Program
     {
+    	//Interpolation Search algorithm
         static int InterpolationSearch(int[] arr, int key,out int Sr,out int Pr)
         {
             // Find indexes of 
@@ -54,11 +55,13 @@ namespace Data_Structures
                     Pr++;
                 }
             }
+            //key hasn't been found
             return -1;
         }
-
+       	//Binary Search algorithm
         static int BinarySearch(int[] arr,int key,out int Sr, out int Pr)
         {
+        	//setting the bounds of array
             int min = 0;
             int max = arr.Length - 1;
             Pr = 2;
@@ -66,14 +69,17 @@ namespace Data_Structures
             while (min <= max)
             {
                 Sr++;
+                //calculating the middle part of array
                 int mid = (min + max) / 2;
                 Pr++;
                 Sr++;
+                //comparing it ti the key
                 if (key == arr[mid])
                 {
                     return mid;
                 }
                 else {
+                	//choosing the direction of movement
                     if (key < arr[mid])
                     {
                         max = mid - 1;
@@ -86,8 +92,11 @@ namespace Data_Structures
                     Pr++;
                 }
             }
+            //key hasn't been found
             return -1;
         }
+
+        //Input array
         static int[] ArrayIn(int size)
         {
             int[] arr = new int[size];
@@ -146,17 +155,20 @@ namespace Data_Structures
                 else
                 {
                     //User input of max and min values
-                    int min = 100, max = 900;
-                    //Console.WriteLine("Input minimal generated number: ");
-                    //int.TryParse(Console.ReadLine(), out min);
-                    //Console.WriteLine("Input maximal generated number: ");
-                    //int.TryParse(Console.ReadLine(), out max);
+                    int min,max;
+                    Console.WriteLine("Input minimal generated number: ");
+                   	int.TryParse(Console.ReadLine(), out min);
+                    Console.WriteLine("Input maximal generated number: ");
+                    int.TryParse(Console.ReadLine(), out max);
                     array = GenerateArray(size, min, max);
                     ArrayOut(array);
                 }
+                //creating array copy
                 int[] copy = new int[array.Length];
                 Array.Copy(array, copy, array.Length);
+                //sorting array copy
                 Array.Sort(copy);
+                //Array output if it has ten or less elements
                 if (size <= 10)
                 {
                     Console.WriteLine("Array after sorting:");
@@ -167,7 +179,6 @@ namespace Data_Structures
                 //User input of search method
                 Console.WriteLine("Input '1' to use Binary Search, '2' for Interpolation Search, '3' for C# default search");
                 int.TryParse(Console.ReadLine(), out search_method);
-                //Array output if it has ten or less elements
                 //Choosing sorting method based on user input
                 if (search_method == 1)
                 {
