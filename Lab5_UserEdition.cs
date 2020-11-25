@@ -188,7 +188,7 @@ namespace Hashing
                 if (dictionary[tmp] == value)
                     Console.WriteLine($"Значение найдено по индексу {tmp}");
             }
-            if (!dictionary.ContainsKey(k))
+            if (!dictionary.ContainsKey(tmp))
             {
                 Console.WriteLine("Значение отсутствует в таблице ");
             }
