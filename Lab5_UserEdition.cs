@@ -220,6 +220,7 @@ namespace Hashing
             Console.WriteLine("'e' - выход                           'p' - вывод таблицы");
             Console.WriteLine("'c' - смена метода открытой адресации 'i' - ввод числа");
             Console.WriteLine("'f' - поиск числа                     'g' - заполнение таблицы случайными числами");
+            Console.WriteLine("'r' - удаление числа");
             Console.WriteLine("Введите команду: ");
         }
 
@@ -286,6 +287,21 @@ namespace Hashing
                 PrintMenu();
                 string crutch = Console.ReadLine();
                 HandleInput(crutch, ref dictionary, ref option);
+            }
+
+            //deletes specified element 
+            if (input == "r")
+            {
+                int index;
+                Console.WriteLine("Введите индекс элемента: ");
+                int.TryParse(Console.ReadLine(), out index);
+                if (dictionary.ContainsKey(index))
+                {
+                    dictionary.Remove(index);
+                    Console.WriteLine("Элемент успешно удалён");
+                }
+                else
+                    Console.WriteLine("Даного элемента не существует");
             }
         }
 
