@@ -5,6 +5,7 @@ namespace Hashing
 {
     class Program
     {
+        //generates array of given size with numbers in given bounds
         public static int[] GenerateArray(int size, int min, int max)
         {
             Random r = new Random();
@@ -14,6 +15,7 @@ namespace Hashing
             return arr;
         }
 
+        //displays dictionary
         void PrintDictionary(ref Dictionary <int, int> dictionary)
         {
             foreach (KeyValuePair<int, int> kvp in dictionary)
@@ -22,9 +24,12 @@ namespace Hashing
             }
         }
 
+        //resolves collisions with linear probing
         void LinearProbing(ref Dictionary<int, int> dictionary, int value)
         {
+            //counts number of times dictionary has been accessed
             int access_count = 1;
+            //key initialization
             int k = value % 79;
             if (dictionary.ContainsKey(k))
             {
@@ -41,9 +46,12 @@ namespace Hashing
             Console.WriteLine($"Обращение к таблице было совершено {access_count} раз(а)");
         }
 
+        //finds value if linear probing was used while hashing
         void LinearProbingSearch(ref Dictionary<int, int> dictionary, int value)
         {
+            //counts number of times dictionary has been accessed
             int access_count = 1;
+            //key initialization
             int k = value % 79;
             if (dictionary.ContainsKey(k)&&dictionary[k]==value)
             {
@@ -71,9 +79,12 @@ namespace Hashing
             Console.WriteLine($"Обращение к таблице было совершено {access_count} раз(а)");
         }
 
+        //resolves collisions with square probing
         void SquareProbing(ref Dictionary<int, int> dictionary, int value)
         {
+            //counts number of times dictionary has been accessed
             int access_count = 1;
+            //key initialization
             int k = value % 79;
             if (dictionary.ContainsKey(k))
             {
@@ -90,9 +101,12 @@ namespace Hashing
             Console.WriteLine($"Обращение к таблице было совершено {access_count} раз(а)");
         }
 
+        //finds value if square probing was used while hashing
         void SquareProbingSearch(ref Dictionary<int, int> dictionary, int value)
         {
+            //counts number of times dictionary has been accessed
             int access_count = 1;
+            //key initialization
             int k = value % 79;
             if (dictionary.ContainsKey(k) && dictionary[k] == value)
             {
@@ -120,9 +134,12 @@ namespace Hashing
             Console.WriteLine($"Обращение к таблице было совершено {access_count} раз(а)");
         }
 
+        //resolves collisions with dual argument hashing
         void DualArguments(ref Dictionary<int, int> dictionary, int value)
         {
+            //counts number of times dictionary has been accessed
             int access_count = 1;
+            //key initialization
             int k = value % 79;
             int tmp = k;
             if (dictionary.ContainsKey(k))
@@ -142,9 +159,12 @@ namespace Hashing
             Console.WriteLine($"Обращение к таблице было совершено {access_count} раз(а)");
         }
 
+        //finds value if dual argument hashing was used
         void DualArgumentSearch(ref Dictionary<int, int> dictionary, int value)
         {
+            //counts number of times dictionary has been accessed
             int access_count = 1;
+            //key initialization
             int k = value % 79;
             int tmp = k;
             if (dictionary.ContainsKey(k) && dictionary[k] == value)
@@ -175,8 +195,10 @@ namespace Hashing
             Console.WriteLine($"Обращение к таблице было совершено {access_count} раз(а)");
         }
 
+        //hashes value into the dictionary
         void Hash(ref Dictionary<int,int> dictionary,int option, int value)
         {
+            //throws an exeption if dictionary is full
             if (dictionary.Count > 79)
                 throw new IndexOutOfRangeException("Table can not have more than 79 elements");
             else {
@@ -190,6 +212,7 @@ namespace Hashing
 
         }
 
+        //displays menu
         void PrintMenu()
         {
             Console.WriteLine("Ввод выполняется на английском");
@@ -199,17 +222,24 @@ namespace Hashing
             Console.WriteLine("'f' - поиск числа                     'g' - заполнение таблицы случайными числами");
             Console.WriteLine("Введите команду: ");
         }
+
+        //handles input
         void HandleInput(string input, ref Dictionary<int, int> dictionary, ref int option)
         {
+            //displays dictionary
             if (input == "p")
                 PrintDictionary(ref dictionary);
-            if(input == "c")
+
+            //changes method of collision resolving 
+            if (input == "c")
             {
                 Console.WriteLine("Методы открытой адресации:");
                 Console.WriteLine("1 - метод линейных проб\n2 - метод квадратичных проб\n5 - метод двух аргументов");
                 Console.WriteLine("Выберите метод открытой адресации:");
                 int.TryParse(Console.ReadLine(), out option);
             }
+
+            //unsed to hash a new element
             if(input == "i")
             {
                 if (dictionary.Count > 79)
@@ -222,6 +252,8 @@ namespace Hashing
                     Hash(ref dictionary, option, value);
                 }
             }
+
+            //used to perform element search in the dictionary
             if (input == "f")
             {
                 int value;
@@ -235,6 +267,7 @@ namespace Hashing
                     DualArgumentSearch(ref dictionary, value);
             }
 
+            //hashes random numbers into the dictionary
             if (input == "g")
             {
                 Console.WriteLine("Введите процент заполнения таблицы: ");
@@ -262,10 +295,12 @@ namespace Hashing
             Program p = new Program();
             int option;
             Dictionary<int, int> hash = new Dictionary<int, int>();
+            //dictionary initialization
             Console.WriteLine("Методы открытой адресации:");
             Console.WriteLine("1 - метод линейных проб\n2 - метод квадратичных проб\n3 - метод двух аргументов");
             Console.WriteLine("Выберите метод открытой адресации:");
             int.TryParse(Console.ReadLine(), out option);
+            //main menu cycle
             for (; ; )
             {
                 string input;
