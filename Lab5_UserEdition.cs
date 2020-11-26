@@ -303,7 +303,7 @@ namespace Hashing
                     Console.WriteLine("Элемент успешно удалён");
                 }
                 else
-                    Console.WriteLine("Даного элемента не существует");
+                    Console.WriteLine("Данного элемента не существует");
             }
         }
 
