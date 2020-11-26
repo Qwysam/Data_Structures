@@ -86,13 +86,14 @@ namespace Hashing
             int access_count = 1;
             //key initialization
             int k = value % 79;
+            int tmp = k;
             if (dictionary.ContainsKey(k))
             {
                 int i = 1;
                 while (dictionary.ContainsKey(k))
                 {
                     access_count++;
-                    k = (k + i * i) % 79;
+                    k = (tmp + i * i) % 79;
                     i++;
                 }
             }
@@ -108,6 +109,7 @@ namespace Hashing
             int access_count = 1;
             //key initialization
             int k = value % 79;
+            int tmp = k;
             if (dictionary.ContainsKey(k) && dictionary[k] == value)
             {
                 Console.WriteLine($"Значение найдено по индексу {k}");
@@ -120,7 +122,7 @@ namespace Hashing
                     access_count++;
                     if (dictionary[k] == value)
                         break;
-                    k = (k + i * i) % 79;
+                    k = (tmp + i * i) % 79;
                     i++;
 
                 }
