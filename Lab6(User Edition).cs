@@ -7,13 +7,17 @@ namespace SubstringSearch
     {
         public class StringMatcher
         {
+            //performs naive string search
             public int NaiveStringMatching(string str, string substring)
             {
+                //stores the index
                 int index = -1;
+                //returns index if substring > string 
                 if (substring.Length > str.Length)
                     return index;
                 else
                 {
+                    //main cycle
                     for (int i = 0; i <= str.Length - substring.Length; i++)
                     {
                         //step by step algorithm showcase 
@@ -25,6 +29,7 @@ namespace SubstringSearch
                             Console.Write("^");
                             Console.WriteLine();
                         }
+                        //if first symbol matches checks other symbols
                         if (str[i] == substring[0])
                         {
                             for (int j = 0; j < substring.Length; j++)
@@ -33,7 +38,7 @@ namespace SubstringSearch
                                 if (str.Length <= 15)
                                 {
                                     Console.WriteLine(str);
-                                    for (int k = 0; k < i+j; k++)
+                                    for (int k = 0; k < i + j; k++)
                                         Console.Write(" ");
                                     Console.Write("^");
                                     Console.WriteLine();
@@ -49,6 +54,7 @@ namespace SubstringSearch
                 }
             }
 
+            //perfomrs RK search
             public int RK_Search(string text, string pattern)
             {
                 //number of chars in text alphabet(ASCII)
@@ -99,7 +105,7 @@ namespace SubstringSearch
                             if (text.Length <= 15)
                             {
                                 Console.WriteLine(text);
-                                for (int k = 0; k < i+j; k++)
+                                for (int k = 0; k < i + j; k++)
                                     Console.Write(" ");
                                 Console.Write("^");
                                 Console.WriteLine();
@@ -185,7 +191,7 @@ namespace SubstringSearch
                         if (txt.Length <= 15)
                         {
                             Console.WriteLine(txt);
-                            for (int k = 0; k < s+j; k++)
+                            for (int k = 0; k < s + j; k++)
                                 Console.Write(" ");
                             Console.Write("^");
                             Console.WriteLine();
@@ -225,20 +231,23 @@ namespace SubstringSearch
             }
         }
 
+        //prints main menu
         static void PrintMenu()
         {
-            //Console.WriteLine("Ввод выполняется на английском");
             Console.WriteLine("Команды: ");
             Console.WriteLine("'1' - Прямой поиск                    '2' - РК поиск");
             Console.WriteLine("'3' - БМ поиск                        '4' - встроенный метод C#");
             Console.WriteLine("Введите команду: ");
         }
 
+        //handles user input
         static void HandleInput(string text, string pattern, string option)
         {
             StringMatcher s = new StringMatcher();
+            //measures execution time
             Stopwatch sw = new Stopwatch();
 
+            //Naive Search
             if (option == "1")
             {
                 sw.Start();
@@ -250,7 +259,8 @@ namespace SubstringSearch
                     Console.WriteLine($"Индекс начала подстроки: {index}");
             }
 
-            if(option == "2")
+            //RK Search
+            if (option == "2")
             {
                 sw.Start();
                 int index = s.RK_Search(text, pattern);
@@ -261,6 +271,7 @@ namespace SubstringSearch
                     Console.WriteLine($"Индекс начала подстроки: {index}");
             }
 
+            //BM Search
             if (option == "3")
             {
                 sw.Start();
@@ -272,7 +283,8 @@ namespace SubstringSearch
                     Console.WriteLine($"Индекс начала подстроки: {index}");
             }
 
-            if(option == "4")
+            //C# Search
+            if (option == "4")
             {
                 sw.Start();
                 int index = text.IndexOf(pattern);
@@ -283,6 +295,7 @@ namespace SubstringSearch
                     Console.WriteLine($"Индекс начала подстроки: {index}");
             }
 
+            //execution time output
             TimeSpan duration = sw.Elapsed;
             Console.WriteLine("Время выполнения : {0}", duration.ToString());
         }
@@ -290,15 +303,21 @@ namespace SubstringSearch
         static void Main(string[] args)
         {
             Console.WriteLine("Вводите используя символы ASCII");
-            string text, pattern,option;
-            for(; ; )
+            string text, pattern, option;
+            //main program cycle
+            for (; ; )
             {
+                //text input
                 Console.WriteLine("Введите текст:");
                 text = Console.ReadLine();
                 Console.WriteLine("Введите подстроку:");
+                //patterrn input
                 pattern = Console.ReadLine();
+                //menu output
                 PrintMenu();
+                //user input
                 option = Console.ReadLine();
+                //reaction to input
                 HandleInput(text, pattern, option);
             }
         }
