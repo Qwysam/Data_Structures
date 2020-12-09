@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SubstringSearch
 {
@@ -179,70 +180,60 @@ namespace SubstringSearch
         static void HandleInput(string text, string pattern, string option)
         {
             StringMatcher s = new StringMatcher();
-            Stopwatch sw = new Stopwatch();
 
             if (option == "1")
             {
-                sw.Start();
                 int index = s.NaiveStringMatching(text, pattern);
-                sw.Stop();
-                if (index == -1)
-                    Console.WriteLine("Данной подстроки не существует");
-                else
-                    Console.WriteLine($"Индекс начала подстроки: {index}");
             }
 
-            if(option == "2")
+            if (option == "2")
             {
-                sw.Start();
                 int index = s.RK_Search(text, pattern);
-                sw.Start();
-                if (index == -1)
-                    Console.WriteLine("Данной подстроки не существует");
-                else
-                    Console.WriteLine($"Индекс начала подстроки: {index}");
             }
 
             if (option == "3")
             {
-                sw.Start();
                 int index = s.BM_Search(text.ToCharArray(), pattern.ToCharArray());
-                sw.Stop();
-                if (index == -1)
-                    Console.WriteLine("Данной подстроки не существует");
-                else
-                    Console.WriteLine($"Индекс начала подстроки: {index}");
             }
 
-            if(option == "4")
+            if (option == "4")
             {
-                sw.Start();
                 int index = text.IndexOf(pattern);
-                sw.Stop();
-                if (index == -1)
-                    Console.WriteLine("Данной подстроки не существует");
-                else
-                    Console.WriteLine($"Индекс начала подстроки: {index}");
             }
 
-            TimeSpan duration = sw.Elapsed;
-            Console.WriteLine("Время выполнения : {0}", duration.ToString());
+        }
+
+        static string GenerateString(int size)
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+            return new string(Enumerable.Repeat(chars, size)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        static string SubString(string text, int size)
+        {
+            Random rand = new Random();
+            int index = rand.Next(0, text.Length - size);
+            return text.Substring(index, size);
         }
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Вводите используя символы ASCII");
-            string text, pattern,option;
-            for(; ; )
+            string text, pattern;
+            Stopwatch sw = new Stopwatch();
+            TimeSpan average = new TimeSpan();
+            for (int i = 0;i<100 ;i++ )
             {
-                Console.WriteLine("Введите текст:");
-                text = Console.ReadLine();
-                Console.WriteLine("Введите подстроку:");
-                pattern = Console.ReadLine();
-                PrintMenu();
-                option = Console.ReadLine();
-                HandleInput(text, pattern, option);
+                text = GenerateString(5000);
+                pattern = SubString(text, 5);
+                sw.Start();
+                HandleInput(text, pattern, "2");
+                sw.Stop();
+                average += sw.Elapsed;
+                sw.Reset();
             }
+            Console.WriteLine("Время выполнения : {0}", average.TotalMilliseconds/100);
         }
     }
 }
