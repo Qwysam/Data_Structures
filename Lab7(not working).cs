@@ -31,18 +31,19 @@ namespace MOTree
         }
     }
 
-    public class AlgoPrim
+    public class PrimAlgorithm
     {
-        private static int infinite = 9999999; int[,] LinkCost;
+        private static int infinite = 9999999;
+        int[,] LinkCost;
         int NNodes;
-        public AlgoPrim(int[,] mat)
+        public PrimAlgorithm(int[,] mat)
         {
             int i, j;
             NNodes = mat.Length;
             LinkCost = new int[NNodes, NNodes];
             for (i = 0; i < NNodes; i++)
             {
-                for (j = 0; j < NNodes-1; j++)
+                for (j = 0; j < NNodes; j++)
                 {
                     LinkCost[i, j] = mat[i, j];
                     if (LinkCost[i, j] == 0)
@@ -60,7 +61,7 @@ namespace MOTree
             }
         }
 
-        public int unReached(bool[] r)
+        public int UnReached(bool[] r)
         {
             bool done = true;
             for (int i = 0; i < r.Length; i++)
@@ -80,7 +81,7 @@ namespace MOTree
                 Reached[k] = false;
             }
             predNode[0] = 0;
-            printReachSet(Reached);
+            PrintSet(Reached);
             for (k = 1; k < NNodes; k++)
             {
                 x = y = 0;
@@ -96,24 +97,23 @@ namespace MOTree
                     }
                 Console.WriteLine("Min cost edge: (" + x + "," + y + ")" + "cost = " + LinkCost[x, y]);
                 predNode[y] = x;
-                Reached[y] = true; printReachSet(Reached);
+                Reached[y] = true; PrintSet(Reached);
                 Console.WriteLine();
             }
             int[] a = predNode;
             for (i = 0; i < NNodes; i++)
                 Console.WriteLine(a[i] + " --> " + i);
         }
-        void printReachSet(bool[] Reached)
+        void PrintSet(bool[] Reached)
         {
             Console.WriteLine("ReachSet = ");
             for (int i = 0; i < Reached.Length; i++)
                 if (Reached[i])
                     Console.WriteLine(i + " ");
-            //System.out.println();
         }
     }
 
-    public class AlgoK
+    public class KruskalAlgorithm
     {
         public class Edge
         {
@@ -139,27 +139,28 @@ namespace MOTree
             {
                 Edge edge = new Edge(source, destination, weight); allEdges.Add(edge); //add to total edges
             }
-            public void kruskalMST()
+            public void Kruskal()
             {
                 SimplePriorityQueue<Edge> pq = new SimplePriorityQueue<Edge>();
-                //add all the edges to priority queue, //sort the edges on weights
+                //add all the edges to priority queue,
+                //sort the edges on weights
                 for (int i = 0; i < allEdges.Count; i++)
                 {
                     pq.Enqueue(allEdges[i], allEdges[i].weight);
                 }
                 //create a parent []
                 int[] parent = new int[vertices];
-                //makeset
-                makeSet(parent);
+                //MakeSet
+                MakeSet(parent);
                 List<Edge> mst = new List<Edge>();
-                //process vertices - 1 edges
                 int index = 0;
+                //process vertices - 1 edges
                 while (index < vertices - 1)
                 {
                     Edge edge = pq.Dequeue();
                     //check if adding this edge creates a cycle
-                    int x_set = find(parent, edge.source);
-                    int y_set = find(parent, edge.destination);
+                    int x_set = Find(parent, edge.source);
+                    int y_set = Find(parent, edge.destination);
                     if (x_set == y_set)
                     {
                         //ignore, will create cycle
@@ -169,14 +170,14 @@ namespace MOTree
                         //add it to our final result
                         mst.Add(edge);
                         index++;
-                        union(parent, x_set, y_set);
+                        Unite(parent, x_set, y_set);
                     }
                 }
                 //print MST
                 Console.WriteLine("Minimum Spanning Tree: ");
-                printGraph(mst);
+                PrintGraph(mst);
             }
-            public void makeSet(int[] parent)
+            public void MakeSet(int[] parent)
             {
                 //Make set- creating a new element with a parent pointer to itself.
                 for (int i = 0; i < vertices; i++)
@@ -184,19 +185,20 @@ namespace MOTree
                     parent[i] = i;
                 }
             }
-            public int find(int[] parent, int vertex)
+            public int Find(int[] parent, int vertex)
             {
-                //chain of parent pointers from x upwards through the tree // until an element is reached whose parent is itself if(parent[vertex]!=vertex)
-                return find(parent, parent[vertex]); ;
+                //chain of parent pointers from x upwards through the tree
+                // until an element is reached whose parent is itself if(parent[vertex]!=vertex)
+                return Find(parent, parent[vertex]); ;
                 return vertex;
             }
-            public void union(int[] parent, int x, int y)
+            public void Unite(int[] parent, int x, int y)
             {
-                int x_set_parent = find(parent, x);
-                int y_set_parent = find(parent, y);
+                int x_set_parent = Find(parent, x);
+                int y_set_parent = Find(parent, y);
                 //make x as parent of y parent[y_set_parent] = x_set_parent;
             }
-            public void printGraph(List<Edge> edgeList)
+            public void PrintGraph(List<Edge> edgeList)
             {
                 for (int i = 0; i < edgeList.Count; i++)
                 {
@@ -206,10 +208,10 @@ namespace MOTree
                             " weight: " + edge.weight);
                 }
             }
-            public Graph randomK(int edge, int maxWeight)
+            public Graph RandomK(int edge, int maxWeight)
             {
                 Random random = new Random();
-                AlgoK.Graph graph = new Graph(edge + 1);
+                KruskalAlgorithm.Graph graph = new Graph(edge + 1);
                 for (int i = 0; i <= edge; i++)
                 {
                     graph.addEgde(random.Next(edge), random.Next(edge), random.Next(maxWeight));
@@ -237,7 +239,7 @@ namespace MOTree
                 int op = int.Parse(Console.ReadLine());
                 if (op == 1)
                 {
-                    AlgoK.Graph graph = new AlgoK.Graph(6);
+                    KruskalAlgorithm.Graph graph = new KruskalAlgorithm.Graph(6);
                     graph.addEgde(0, 1, 4);
                     graph.addEgde(0, 2, 3);
                     graph.addEgde(1, 2, 1);
@@ -245,11 +247,11 @@ namespace MOTree
                     graph.addEgde(2, 3, 4);
                     graph.addEgde(3, 4, 2);
                     graph.addEgde(4, 5, 6);
-                    graph.kruskalMST();
+                    graph.Kruskal();
                 }
                 else if (op == 2)
                 {
-                    AlgoK.Graph graph = new AlgoK.Graph(numberOfEdge + 1); graph = graph.randomK(numberOfEdge, weight); graph.kruskalMST();
+                    KruskalAlgorithm.Graph graph = new KruskalAlgorithm.Graph(numberOfEdge + 1); graph = graph.RandomK(numberOfEdge, weight); graph.Kruskal();
                 }
             }
             else if (operation == 2)
@@ -270,7 +272,7 @@ namespace MOTree
                         {0,4,2,0,0,0,0,0,0}, //7
                         {4, 0, 0, 0, 8, 0, 0, 0, 0}
                         };
-                    AlgoPrim G = new AlgoPrim(conn);
+                    PrimAlgorithm G = new PrimAlgorithm(conn);
                     G.Prim();
                 }
                 else if (op == 2)
@@ -278,9 +280,14 @@ namespace MOTree
                     int[,] conn;
                     RandomTree rt = new RandomTree();
                     conn = rt.randomP(10, 100);
-                    AlgoPrim G = new AlgoPrim(conn);
+                    PrimAlgorithm G = new PrimAlgorithm(conn);
                     G.Prim();
                 }
+                int tmp;
+                do
+                {
+                    tmp = 12;
+                } while (tmp != 0);
             }
         }
     }
